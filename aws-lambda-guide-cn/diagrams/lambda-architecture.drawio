@@ -1,0 +1,121 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="lambda-arch" name="Lambda 控制面 + 数据面">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="AWS Lambda：ShopFast checkout:prod 如何被部署、预热与调用" style="text;html=1;fontSize=20;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="1200" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Lanes -->
+        <mxCell id="laneCaller" value="调用方" style="swimlane;horizontal=0;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1520" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="laneCP" value="控制面（由你配置）" style="swimlane;horizontal=0;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="1520" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="laneDP" value="数据面（每次调用）" style="swimlane;horizontal=0;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="430" width="1520" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="laneWorkers" value="工作节点集群（EC2 裸金属，Firecracker 微虚拟机）" style="swimlane;horizontal=0;startSize=30;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="1520" height="300" as="geometry" />
+        </mxCell>
+
+        <!-- Callers lane -->
+        <mxCell id="ci" value="CI/CD 流水线&lt;br&gt;更新代码、publish-version" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="laneCaller">
+          <mxGeometry x="70" y="45" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cd" value="CodeDeploy&lt;br&gt;Canary10Percent10Minutes" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="laneCaller">
+          <mxGeometry x="310" y="45" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aas" value="Application Auto Scaling&lt;br&gt;08:30 最小=400；目标 0.7" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="laneCaller">
+          <mxGeometry x="550" y="45" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="apigw" value="API Gateway&lt;br&gt;集成：checkout:prod" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="laneCaller">
+          <mxGeometry x="1000" y="45" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="users" value="顾客&lt;br&gt;Alice、Bob、Carol" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="laneCaller">
+          <mxGeometry x="1290" y="40" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Control plane lane -->
+        <mxCell id="latest" value="$LATEST&lt;br&gt;（可变草稿）" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="laneCP">
+          <mxGeometry x="70" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="v7" value="版本 7&lt;br&gt;不可变" style="shape=cylinder3;whiteSpace=wrap;html=1;size=8;" vertex="1" parent="laneCP">
+          <mxGeometry x="70" y="120" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="v8" value="版本 8&lt;br&gt;zip + Node 22，1024 MB，10 秒" style="shape=cylinder3;whiteSpace=wrap;html=1;size=8;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="laneCP">
+          <mxGeometry x="270" y="110" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="alias" value="别名 prod&lt;br&gt;周四：7=0.9 / 8=0.1&lt;br&gt;随后 8=1.0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="laneCP">
+          <mxGeometry x="560" y="60" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pcm" value="prod 上的 PC 配置&lt;br&gt;50 → 400（READY）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="laneCP">
+          <mxGeometry x="830" y="60" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rc" value="预留并发&lt;br&gt;checkout = 800&lt;br&gt;（账号限额 3,000）" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="laneCP">
+          <mxGeometry x="1100" y="60" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Data plane lane -->
+        <mxCell id="fe" value="调用前端&lt;br&gt;认证授权，解析 prod → v8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="laneDP">
+          <mxGeometry x="1000" y="40" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="cs" value="计数服务&lt;br&gt;675/800 通过；第 801 个 → 429" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="laneDP">
+          <mxGeometry x="1270" y="40" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="as" value="分配服务&lt;br&gt;环境状态：空闲/忙碌/初始化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="laneDP">
+          <mxGeometry x="700" y="130" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="pl" value="放置服务&lt;br&gt;挑选节点，跨 AZ 分散" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="laneDP">
+          <mxGeometry x="330" y="130" width="220" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Worker lane -->
+        <mxCell id="pcpool" value="预置池：400 个 v8 环境&lt;br&gt;08:30 已运行 Init&lt;br&gt;（Alice、09:00 第一波）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="laneWorkers">
+          <mxGeometry x="640" y="50" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="odpool" value="按需 v8 环境（溢出）&lt;br&gt;请求内启动 + Init 600 ms&lt;br&gt;（Bob）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="laneWorkers">
+          <mxGeometry x="280" y="50" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="envdetail" value="每个环境 = 一个 Firecracker 微虚拟机：客户机内核 + Node 22 运行时 + 扩展 + handler.js&lt;br&gt;一次一个请求 · 调用间冻结 · Runtime API /invocation/next" style="text;html=1;whiteSpace=wrap;align=left;fontSize=12;" vertex="1" parent="laneWorkers">
+          <mxGeometry x="280" y="170" width="700" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="throttle" value="429 TooManyRequests&lt;br&gt;（Carol）——未触碰任何环境" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="laneWorkers">
+          <mxGeometry x="1270" y="50" width="210" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Edges: deploy path -->
+        <mxCell id="e1" value="1 更新代码" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="ci" target="latest"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" value="2 publish-version" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="latest" target="v8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" value="3 设置权重" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="cd" target="alias"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" value="指向" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;" edge="1" parent="1" source="alias" target="v8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4b" value="（金丝雀 0.9）" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;" edge="1" parent="1" source="alias" target="v7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" value="设置 N" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="aas" target="pcm"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" value="预建 N 个" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="pcm" target="pl"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" value="提前启动 + Init" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="1" source="pl" target="pcpool"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Edges: invoke path -->
+        <mxCell id="i1" value="POST /checkout" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" edge="1" parent="1" source="users" target="apigw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="i2" value="Invoke checkout:prod" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" edge="1" parent="1" source="apigw" target="fe"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="i3" value="申请并发单位" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" edge="1" parent="1" source="fe" target="cs"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="i3b" value="限额" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;" edge="1" parent="1" source="rc" target="cs"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="i3c" value="拒绝" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="cs" target="throttle"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="i4" value="申请 v8 环境" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" edge="1" parent="1" source="fe" target="as"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="i5" value="租用热环境" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" edge="1" parent="1" source="as" target="pcpool"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="i6" value="无空闲：新建" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="as" target="pl"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="i7" value="冷启动" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="pl" target="odpool"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a1" value="制品" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;" edge="1" parent="1" source="v8" target="odpool"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend" value="图例：橙色 = 请求路径 · 红色 = 溢出/限流 · 虚线 = 配置引用 · 紫色 = 带版本的控制面对象" style="text;html=1;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="965" width="1200" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
