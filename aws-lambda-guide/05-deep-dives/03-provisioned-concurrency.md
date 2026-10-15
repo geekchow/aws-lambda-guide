@@ -1,6 +1,6 @@
 # 05.3 — Deep Dive: Provisioned Concurrency (PC Manager + Application Auto Scaling)
 
-> **Where you are:** Stage 5, dive 3 of 6. Example steps **3** (warm pool split during canary), **6** (scale PC to 400), **7** (all-warm 09:00 wave) and **8** (Bob spills over).
+> **Where you are:** Stage 5, dive 3 of 7. Example steps **3** (warm pool split during canary), **6** (scale PC to 400), **7** (all-warm 09:00 wave) and **8** (Bob spills over).
 > **After this file you will know:** what PC (Provisioned Concurrency) really pre-creates, its lifecycle, how spillover works, how to scale it, what it costs, and how it fails.
 
 ---

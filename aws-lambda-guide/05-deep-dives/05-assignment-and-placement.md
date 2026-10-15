@@ -1,6 +1,6 @@
 # 05.5 — Deep Dive: Assignment + Placement Services (Finding or Creating an Environment)
 
-> **Where you are:** Stage 5, dive 5 of 6. Example steps **4** (Alice gets a warm PC environment), **6** (400 PC environments created) and **8** (Bob's environment created on demand).
+> **Where you are:** Stage 5, dive 5 of 7. Example steps **4** (Alice gets a warm PC environment), **6** (400 PC environments created) and **8** (Bob's environment created on demand).
 > **After this file you will know:** how Lambda decides *which* environment serves a request, how a new one gets onto a machine, and why warm reuse is the norm.
 
 > These are internal services, described from AWS's public re:Invent architecture talks. Treat them as a mental model; names and details evolve.

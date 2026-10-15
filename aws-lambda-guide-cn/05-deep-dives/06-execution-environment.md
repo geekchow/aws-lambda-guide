@@ -1,6 +1,6 @@
 # 05.6 —— 深入：执行环境（Firecracker 微虚拟机）
 
-> **你在这里：** 第 5 阶段，深入 6 / 6。示例第 **4** 步（Alice 的 handler 热运行）、第 **6** 步（提前完成 400 次 Init）、第 **7** 步（热的第一波）、第 **8** 步（Bob 的冷 Init）。
+> **你在这里：** 第 5 阶段，深入 6 / 7。示例第 **4** 步（Alice 的 handler 热运行）、第 **6** 步（提前完成 400 次 Init）、第 **7** 步（热的第一波）、第 **8** 步（Bob 的冷 Init）。
 > **读完本文你将知道：** 环境在物理上是什么、它的 Init/Invoke/Shutdown 生命周期、冻结/解冻与复用，以及如何写出善用这些特性的代码。
 
 ---
@@ -83,7 +83,7 @@ sequenceDiagram
 1. **把昂贵的初始化放进 Init**（handler 之外）：客户端、配置拉取、连接预热。每个环境只付一次——对 PC 而言还在请求路径之外。
 2. **永远不要依赖状态一定存在**：缓存必须是可选的；持久状态放 DynamoDB/S3（Simple Storage Service，简单存储服务）。
 3. **返回之后不要留下仍在运行的工作**——响应前先刷出。
-4. **把并发视为许多独立进程**：400 个环境 = 400 个指向数据库的连接池（如果太多，使用 RDS Proxy（Relational Database Service Proxy，关系型数据库服务代理）或基于 HTTP 的数据 API）。
+4. **把并发视为许多独立进程**：400 个环境 = 400 个指向数据库的连接池（如果太多，使用 RDS Proxy（Relational Database Service Proxy，关系型数据库服务代理）或基于 HTTP 的数据 API，详见 [05.7](07-connection-bound-backends.md)）。
 
 ## 3. 交互
 
@@ -153,4 +153,4 @@ Bob 付出了约 600 毫秒的 Init（主要是优惠券拉取）。团队记下
 
 ---
 
-**下一篇 →** [../06-walkthrough.md](../06-walkthrough.md) · **返回** [../03-concept-map.md](../03-concept-map.md)
+**下一篇 →** [07-connection-bound-backends.md](07-connection-bound-backends.md) · **返回** [../03-concept-map.md](../03-concept-map.md)

@@ -24,6 +24,7 @@ A learning guide to AWS (Amazon Web Services) Lambda, built from first principle
 | 05.4 | [Invoke Frontend & concurrency](aws-lambda-guide/05-deep-dives/04-invoke-frontend-and-concurrency.md) | [调用前端与并发](aws-lambda-guide-cn/05-deep-dives/04-invoke-frontend-and-concurrency.md) |
 | 05.5 | [Assignment & Placement](aws-lambda-guide/05-deep-dives/05-assignment-and-placement.md) | [分配与放置](aws-lambda-guide-cn/05-deep-dives/05-assignment-and-placement.md) |
 | 05.6 | [Execution environment](aws-lambda-guide/05-deep-dives/06-execution-environment.md) | [执行环境](aws-lambda-guide-cn/05-deep-dives/06-execution-environment.md) |
+| 05.7 | [Connection-bound backends](aws-lambda-guide/05-deep-dives/07-connection-bound-backends.md) | [受连接数约束的后端](aws-lambda-guide-cn/05-deep-dives/07-connection-bound-backends.md) |
 | 06 | [Full walkthrough](aws-lambda-guide/06-walkthrough.md) | [完整走查](aws-lambda-guide-cn/06-walkthrough.md) |
 | 07 | [Next steps & lab](aws-lambda-guide/07-next-steps.md) | [自测与动手实验](aws-lambda-guide-cn/07-next-steps.md) |
 

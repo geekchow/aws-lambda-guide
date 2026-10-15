@@ -88,6 +88,7 @@ mindmap
       冷启动溢出
       达上限时 429 限流
       切换别名回滚
+      连接数先于容量耗尽
 ```
 
 ---
@@ -105,10 +106,11 @@ flowchart LR
     E3 --> E4[05.4 调用前端<br/>与计数服务]
     E4 --> E5[05.5 分配与<br/>放置服务]
     E5 --> E6[05.6 执行环境]
-    E6 --> F[06 完整走查]
+    E6 --> E7[05.7 受连接数<br/>约束的后端]
+    E7 --> F[06 完整走查]
     F --> G[07 后续练习]
 ```
-*图注：阅读顺序——先广度（01–04），再按示例中出场顺序对每个关键组件深入（05.x），最后完整重放（06）。*
+*图注：阅读顺序——先广度（01–04），再按示例中出场顺序对每个关键组件深入（05.1–05.6），外加受连接数约束的后端（05.7），最后完整重放（06）。*
 
 | # | 文件 | 阶段 | 你将获得 |
 |---|---|---|---|
@@ -122,6 +124,7 @@ flowchart LR
 | 05.4 | [05-deep-dives/04-invoke-frontend-and-concurrency.md](05-deep-dives/04-invoke-frontend-and-concurrency.md) | 深入 | 准入、并发计算、预留并发、限流 |
 | 05.5 | [05-deep-dives/05-assignment-and-placement.md](05-deep-dives/05-assignment-and-placement.md) | 深入 | 找到热环境或新建环境 |
 | 05.6 | [05-deep-dives/06-execution-environment.md](05-deep-dives/06-execution-environment.md) | 深入 | Firecracker 微虚拟机、Init/Invoke/Shutdown、冻结/解冻 |
+| 05.7 | [05-deep-dives/07-connection-bound-backends.md](05-deep-dives/07-connection-bound-backends.md) | 深入 | CloudHSM/数据库连接为何先耗尽；RDS Proxy、KMS 密钥存储、服务层 |
 | 06 | [06-walkthrough.md](06-walkthrough.md) | 走查 | 示例端到端的完整深度重放 |
 | 07 | [07-next-steps.md](07-next-steps.md) | 练习 | 自测题、动手实验脚本、延伸阅读 |
 

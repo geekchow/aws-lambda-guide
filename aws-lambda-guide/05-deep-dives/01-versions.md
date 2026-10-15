@@ -1,6 +1,6 @@
 # 05.1 — Deep Dive: Versions (the Version Store)
 
-> **Where you are:** Stage 5, dive 1 of 6. Example steps **1** (publish v8) and every later step that "runs v8".
+> **Where you are:** Stage 5, dive 1 of 7. Example steps **1** (publish v8) and every later step that "runs v8".
 > **After this file you will know:** exactly what a version freezes, how `$LATEST` differs, how qualified ARNs (Amazon Resource Names) work, and how versioning fails.
 
 ---

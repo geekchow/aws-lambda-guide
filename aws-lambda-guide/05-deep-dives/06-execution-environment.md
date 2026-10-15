@@ -1,6 +1,6 @@
 # 05.6 — Deep Dive: The Execution Environment (Firecracker microVM)
 
-> **Where you are:** Stage 5, dive 6 of 6. Example steps **4** (Alice's handler runs warm), **6** (400 Inits ahead of time), **7** (the warm wave) and **8** (Bob's cold Init).
+> **Where you are:** Stage 5, dive 6 of 7. Example steps **4** (Alice's handler runs warm), **6** (400 Inits ahead of time), **7** (the warm wave) and **8** (Bob's cold Init).
 > **After this file you will know:** what an environment physically is, its Init/Invoke/Shutdown lifecycle, freeze/thaw and reuse, and how to write code that exploits it.
 
 ---
@@ -83,7 +83,7 @@ Design rules that follow:
 1. **Do expensive setup in Init** (outside the handler): clients, config fetch, connection warm-up. It is paid once per environment — and for PC, off the request path.
 2. **Never rely on state being there**: caches must be optional; durable state goes to DynamoDB/S3.
 3. **Never leave work running after returning** — flush before responding.
-4. **Assume concurrency = many separate processes**: 400 environments = 400 connection pools to your database (use RDS Proxy (Relational Database Service Proxy) or HTTP-based data APIs if that is too many).
+4. **Assume concurrency = many separate processes**: 400 environments = 400 connection pools to your database (use RDS Proxy (Relational Database Service Proxy) or HTTP-based data APIs if that is too many — see [05.7](07-connection-bound-backends.md)).
 
 ## 3. Interactions
 
@@ -153,4 +153,4 @@ Bob paid ~600 ms of Init (the coupon fetch dominates). Two cheap improvements th
 
 ---
 
-**Next →** [../06-walkthrough.md](../06-walkthrough.md) · **Back to** [../03-concept-map.md](../03-concept-map.md)
+**Next →** [07-connection-bound-backends.md](07-connection-bound-backends.md) · **Back to** [../03-concept-map.md](../03-concept-map.md)

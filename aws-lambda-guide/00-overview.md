@@ -82,6 +82,7 @@ mindmap
       Cold start spillover
       Throttle 429 at the cap
       Canary rollback by alias flip
+      Connection limits hit before capacity
 ```
 
 ---
@@ -99,10 +100,11 @@ flowchart LR
     E3 --> E4[05.4 Invoke Frontend<br/>and Counting]
     E4 --> E5[05.5 Assignment<br/>and Placement]
     E5 --> E6[05.6 Execution<br/>environment]
-    E6 --> F[06 Walkthrough]
+    E6 --> E7[05.7 Connection-bound<br/>backends]
+    E7 --> F[06 Walkthrough]
     F --> G[07 Next steps]
 ```
-*Caption: the reading order — breadth first (01–04), then one dive per key player in the order they appear in the example (05.x), then the full replay (06).*
+*Caption: the reading order — breadth first (01–04), then one dive per key player in the order they appear in the example (05.1–05.6) plus one on connection-bound backends (05.7), then the full replay (06).*
 
 | # | File | Stage | What you get |
 |---|---|---|---|
@@ -116,6 +118,7 @@ flowchart LR
 | 05.4 | [05-deep-dives/04-invoke-frontend-and-concurrency.md](05-deep-dives/04-invoke-frontend-and-concurrency.md) | Depth | Admission, concurrency math, reserved concurrency, throttling |
 | 05.5 | [05-deep-dives/05-assignment-and-placement.md](05-deep-dives/05-assignment-and-placement.md) | Depth | Finding a warm environment or creating a new one |
 | 05.6 | [05-deep-dives/06-execution-environment.md](05-deep-dives/06-execution-environment.md) | Depth | Firecracker microVM, Init/Invoke/Shutdown, freeze/thaw |
+| 05.7 | [05-deep-dives/07-connection-bound-backends.md](05-deep-dives/07-connection-bound-backends.md) | Depth | Why CloudHSM/database connections run out first; RDS Proxy, KMS key store, service tier |
 | 06 | [06-walkthrough.md](06-walkthrough.md) | Walkthrough | The example end to end at full depth |
 | 07 | [07-next-steps.md](07-next-steps.md) | Practice | Exercises, a hands-on lab script, further reading |
 

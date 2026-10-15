@@ -1,6 +1,6 @@
 # 05.2 — Deep Dive: Aliases (the Alias Router)
 
-> **Where you are:** Stage 5, dive 2 of 6. Example steps **2** (canary 90/10), **4** (Alice's request routed to v8) and **5** (promote to 100%).
+> **Where you are:** Stage 5, dive 2 of 7. Example steps **2** (canary 90/10), **4** (Alice's request routed to v8) and **5** (promote to 100%).
 > **After this file you will know:** what an alias is, how weighted routing picks a version per request, how canary/linear deploys and rollbacks are built on it, and its limits.
 
 ---

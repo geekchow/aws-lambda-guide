@@ -1,6 +1,6 @@
 # 05.4 — Deep Dive: Invoke Frontend + Counting Service (Admission & Concurrency)
 
-> **Where you are:** Stage 5, dive 4 of 6. Example steps **4** (Alice admitted), **7** (09:00 wave), **8** (Bob admitted though PC is full) and **9** (Carol throttled).
+> **Where you are:** Stage 5, dive 4 of 7. Example steps **4** (Alice admitted), **7** (09:00 wave), **8** (Bob admitted though PC is full) and **9** (Carol throttled).
 > **After this file you will know:** what happens to a request before any code runs, the concurrency math, how account vs. reserved concurrency and the scaling rate limit work, and what a throttle really is.
 
 ---
